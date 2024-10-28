@@ -31,7 +31,7 @@ export class HeaderComponent {
         this.isLoggingOut = false;       
         
         localStorage.clear();
-        window.location.href = '/login';
+        window.location.href = '/authenticate';
       }
     });
   }
