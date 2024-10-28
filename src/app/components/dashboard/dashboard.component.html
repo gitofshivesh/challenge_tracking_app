@@ -1,0 +1,80 @@
+
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <h4>Welcome</h4>
+    
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link" href="#">Features</a>
+        <a class="nav-item nav-link" href="#">Pricing</a>
+        <a class="nav-item nav-link disabled" href="#">Disabled</a>
+      </div>
+    </div>
+</nav> -->
+
+<div class="dashboard-container">
+    <div *ngIf="loading" class="loading">
+      Loading...
+    </div>
+  
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+
+    <div *ngIf="!loading && !error" class="row">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 top">
+                    <div class="row">
+                        <div class="col-6 text-left">
+                            Today : {{onDate | date: 'dd-MM-yyyy'}}
+                        </div>
+                        <div class="col-6 text-right">
+                            Total Pending Task(s) for today to mark : {{totalPendingCount}}
+                        </div>
+                    </div>                                        
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <div *ngIf="!loading && !error" class="stats-grid">
+    
+    <div class="stats-card">
+        <h3>Total Challenges</h3>
+        <p class="stats-value">{{ total_active_challenges }}</p>
+    </div>
+
+      <div class="stats-card">
+        <h3>Total Activities</h3>
+        <p class="stats-value">{{ total_activities }}</p>
+      </div>
+  
+      <div class="stats-card">
+        <h3>Completed Activities</h3>
+        <p class="stats-value">{{ completed_activities }}</p>
+      </div>
+  
+      <div class="stats-card pending" (click)="navigateToPendingActivities()">
+        <h3>Pending Activities</h3>
+        <p class="stats-value">
+          {{ pending_activities }}
+          <span class="badge" *ngIf="+pending_activities > 0">
+            {{ pending_activities }}
+          </span>
+        </p>
+      </div>
+    </div>
+
+
+    <div class="container mt-5" *ngIf="!loading && !error">
+        <div class="card illusion-card" style="margin-top: 5em;">
+          <div class="card-body text-center">
+            <h5 class="card-title text-center">Your Overall Completion Rate</h5>
+            <h1 class="card-subtitle mb-2 text-center">{{ completion_rate }}%</h1>
+            <p class="card-text text-center">View your challange list</p>
+            <button (click)="navigateToChallenges()" class="btn btn-primary text-center">Get List</button>
+          </div>
+        </div>
+      </div>
+</div>

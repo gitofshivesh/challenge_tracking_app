@@ -1,0 +1,83 @@
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2>Challenge Activities</h2>
+          <button class="btn btn-primary" (click)="navigateToChallenges()">Back to Challenges</button>
+        </div>
+  
+        <!-- Loade r -->
+        <div *ngIf="loading" class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+  
+        <!-- Error Message -->
+        <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ error }}
+          <button type="button" class="btn-close" (click)="error = ''"></button>
+        </div>
+  
+        <!-- Success Message -->
+        <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ successMessage }}
+          <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+        </div>
+  
+        <!-- Table -->
+        <div *ngIf="!loading && !error" class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+                <th>Last Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let activity of activities">
+                <td>{{ formatDate(activity.activity_date) }}</td>
+                <td>
+                  <span class="badge" [ngClass]="getStatusBadgeClass(activity.status)">
+                    {{ activity.status }}
+                  </span>
+                </td>
+                <td>
+                  <div class="btn-group" role="group" *ngIf="isDatePassed(activity.activity_date)">                    
+                    <div *ngIf="updatingActivityId === activity.id" class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                      <span class="visually-hidden">Updating...</span>
+                    </div>
+                    
+                    <!-- Action -->
+                    <ng-container *ngIf="updatingActivityId !== activity.id">
+                      <button class="btn btn-sm btn-success me-2" 
+                        (click)="updateStatus(activity, 'completed')"
+                        [disabled]="activity.status === 'completed'">
+                        <i class="bi bi-check-circle"></i> Complete
+                      </button>
+                      <button class="btn btn-sm btn-danger" 
+                        (click)="updateStatus(activity, 'missed')"
+                        [disabled]="activity.status === 'missed'">
+                        <i class="bi bi-x-circle"></i> Miss
+                      </button>
+                    </ng-container>
+                  </div>
+                  <span *ngIf="!isDatePassed(activity.activity_date)" class="text-muted">
+                    Future activity
+                  </span>
+                </td>
+                <td>{{ formatDate(activity.updated_at) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <!-- No Data -->
+        <div *ngIf="!loading && !error && activities.length === 0" class="alert alert-info" role="alert">
+          No activities found for this challenge.
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,80 @@
+<div class="container mt-5">
+    <div class="col-12 text-right">
+        <button class="btn btn-warning" (click)="navigateToChallenges()">Back to Challenges</button>                   
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">Create New Challenge</h3>
+          </div>
+          <div class="card-body">
+            <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+            <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+  
+            <form [formGroup]="challengeForm" (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" formControlName="title"
+                  [ngClass]="{'is-invalid': challengeForm.get('title')?.invalid && challengeForm.get('title')?.touched}"
+                >
+                <div class="invalid-feedback" *ngIf="challengeForm.get('title')?.invalid && challengeForm.get('title')?.touched">
+                  Title is required
+                </div>
+              </div>
+  
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" formControlName="description" rows="3"
+                  [ngClass]="{'is-invalid': challengeForm.get('description')?.invalid && challengeForm.get('description')?.touched}"
+                ></textarea>
+                <div class="invalid-feedback" *ngIf="challengeForm.get('description')?.invalid && challengeForm.get('description')?.touched">
+                  Description is required
+                </div>
+              </div>
+  
+              <div class="mb-3">
+                <label for="start_date" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="start_date" formControlName="start_date"
+                  [ngClass]="{'is-invalid': challengeForm.get('start_date')?.invalid && challengeForm.get('start_date')?.touched}"
+                >
+                <div class="invalid-feedback" *ngIf="challengeForm.get('start_date')?.invalid && challengeForm.get('start_date')?.touched">
+                  Start date is required
+                </div>
+              </div>
+  
+              <div class="mb-3">
+                <label for="end_date" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="end_date" formControlName="end_date"
+                  [ngClass]="{'is-invalid': challengeForm.get('end_date')?.invalid && challengeForm.get('end_date')?.touched}"
+                >
+                <div class="invalid-feedback" *ngIf="challengeForm.get('end_date')?.invalid && challengeForm.get('end_date')?.touched">
+                  End date is required
+                </div>
+              </div>
+  
+              <div class="mb-3">
+                <label for="frequency" class="form-label">Frequency</label>
+                <select class="form-select" id="frequency" formControlName="frequency"
+                  [ngClass]="{'is-invalid': challengeForm.get('frequency')?.invalid && challengeForm.get('frequency')?.touched}"
+                >
+                  <option *ngFor="let freq of frequencies" [value]="freq.value">
+                    {{ freq.label }}
+                  </option>
+                </select>
+                <div class="invalid-feedback" *ngIf="challengeForm.get('frequency')?.invalid && challengeForm.get('frequency')?.touched">
+                  Frequency is required
+                </div>
+              </div>
+  
+              <button type="submit" class="btn btn-primary"
+                [disabled]="challengeForm.invalid || loading"
+              >
+                {{ loading ? 'Creating...' : 'Create Challenge' }}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
